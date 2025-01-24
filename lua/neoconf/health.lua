@@ -45,7 +45,7 @@ function M.check()
 
   if lspconfig then
     ok("**lspconfig** is installed")
-    local available = lspconfig.available_servers()
+    local available = lspconfig._available_servers()
     if vim.tbl_contains(available, "jsonls") then
       ok("**lspconfig jsonls** is installed")
     else
