@@ -33,7 +33,16 @@ function M.find_git_ancestor(...)
 end
 
 function M.has_lspconfig(server)
-  return vim.tbl_contains(require("lspconfig.util")._available_servers(), server)
+  local lsputil = require("lspconfig.util")
+  local available
+
+  if lsputil._available_servers ~= nil then
+    available = lsputil._available_servers()
+  else
+    available = lsputil.available_servers()
+  end
+
+  return vim.tbl_contains(available, server)
 end
 
 ---@param opts { on_config: fun(config, root_dir:string, original_config), root_dir: fun(), name: string }

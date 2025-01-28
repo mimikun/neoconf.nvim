@@ -45,7 +45,12 @@ function M.check()
 
   if lspconfig then
     ok("**lspconfig** is installed")
-    local available = lspconfig.available_servers()
+    local available
+    if lspconfig._available_servers ~= nil then
+      available = lspconfig._available_servers()
+    else
+      available = lspconfig.available_servers()
+    end
     if vim.tbl_contains(available, "jsonls") then
       ok("**lspconfig jsonls** is installed")
     else
@@ -68,7 +73,13 @@ function M.check_setup()
   end
   local lsputil = package.loaded["lspconfig.util"]
   if lsputil then
-    if #lsputil._available_servers() == 0 then
+    local available
+    if lsputil._available_servers ~= nil then
+      available = #lsputil._available_servers()
+    else
+      available = #lsputil.available_servers()
+    end
+    if available == 0 then
       return true
     else
       util.error(
